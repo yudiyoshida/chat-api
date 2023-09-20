@@ -15,13 +15,13 @@ datasource db {
 }
 
 model User {
-  id            Int           @id @default(autoincrement())
-  role          AccountRole   @default(user)
-  name          String        @db.VarChar(512)
-  email         String        @unique @db.VarChar(512)
-  password      String        @db.Text
-  imageUrl      String?       @db.Text
-  online Boolean
+  id       Int         @id @default(autoincrement())
+  role     AccountRole @default(user)
+  name     String      @db.VarChar(512)
+  email    String      @unique @db.VarChar(512)
+  password String      @db.Text
+  imageUrl String?     @db.Text
+  online   Boolean     @default(false)
 }
 
 enum AccountRole {
