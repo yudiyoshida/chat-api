@@ -1,0 +1,65 @@
+components:
+  schemas:
+    AccountUserSchema:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        role:
+          type: string
+          example: 'user'
+        type:
+          type: string
+          example: 'web'
+        name:
+          type: string
+          example: 'User 01'
+
+    LoginUserSchema:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/AccountUserSchema'
+        token:
+          type: string
+
+    LoginInputUserSchema:
+      type: object
+      properties:
+        credential:
+          type: string
+          required: true
+          example: 'user@email.com'
+        password:
+          type: string
+          required: true
+          example: '123456789'
+
+    ForgotPasswordUserSchema:
+      type: object
+      properties:
+        credential:
+          type: string
+          required: true
+          example: 'user@email.com'
+
+    ResetPasswordUserSchema:
+      type: object
+      properties:
+        credential:
+          type: string
+          required: true
+          example: 'user@email.com'
+        code:
+          type: string
+          required: true
+          example: '1234'
+        password:
+          type: string
+          required: true
+          example: '12345789'
+        confirmPassword:
+          type: string
+          required: true
+          example: '12345789'

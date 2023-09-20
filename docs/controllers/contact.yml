@@ -1,0 +1,22 @@
+paths:
+  /contact:
+    post:
+      summary: 'Rota utilizada para entrar em contato (fale conosco)'
+      tags:
+        - Gerencial - Contato
+        - User - Contato
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactSchema'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessSchema'
+              example:
+                message: 'Mensagem enviada com sucesso! Em breve entraremos em contato.'

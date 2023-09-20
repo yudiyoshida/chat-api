@@ -1,0 +1,36 @@
+paths:
+  /texts:
+    parameters:
+      - $ref: '#/components/parameters/TextTypeParameter'
+    get:
+      summary: 'Rota utilizada para exibir um texto (termos de uso, políticas de privacidade e sobre)'
+      tags:
+        - Gerencial - Textos
+        - User - Textos
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextSchema'
+
+    put:
+      summary: 'Rota utilizada para editar um texto (termos de uso, políticas de privacidade e sobre)'
+      tags:
+        - Gerencial - Textos
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextSchema'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextSchema'

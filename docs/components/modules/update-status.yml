@@ -1,0 +1,9 @@
+components:
+  schemas:
+    UpdateStatusSchema:
+      type: object
+      properties:
+        status:
+          type: string
+          required: true
+          example: 'ativo ou inativo'

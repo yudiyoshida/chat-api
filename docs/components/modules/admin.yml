@@ -1,0 +1,32 @@
+components:
+  schemas:
+    AdminSchema:
+      type: object
+      properties:
+        id:
+          type: number
+          readOnly: true
+          example: 1
+        name:
+          type: string
+          required: true
+          example: 'Admin 01'
+        email:
+          type: string
+          required: true
+          example: 'admin@getnada.com'
+        status:
+          type: string
+          readOnly: true
+          example: 'ativo'
+        imageUrl:
+          type: string
+          example: 'campo opcional'
+        createdAt:
+          type: date
+          readOnly: true
+          example: '2023-01-01T00:19:12.088Z'
+        updatedAt:
+          type: date
+          readOnly: true
+          example: '2023-01-01T00:19:12.088Z'

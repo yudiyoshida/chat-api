@@ -1,0 +1,16 @@
+components:
+  schemas:
+    UploadSchema:
+      type: object
+      properties:
+        url:
+          type: string
+          readOnly: true
+          example: 'http://site.com/files/file01.png'
+
+    UploadRequestBodySchema:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary

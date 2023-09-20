@@ -1,0 +1,30 @@
+// This is your Prisma schema file, learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Attributes: https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#attributes
+// Attributes functions: https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#attribute-functions
+// Native type MySQL: https://www.prisma.io/docs/concepts/database-connectors/mysql#native-type-mappings
+// Relations: https://www.prisma.io/docs/concepts/components/prisma-schema/relations
+// Scalar types: https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#model-field-scalar-types
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DB_URL")
+}
+
+model User {
+  id            Int           @id @default(autoincrement())
+  role          AccountRole   @default(user)
+  name          String        @db.VarChar(512)
+  email         String        @unique @db.VarChar(512)
+  password      String        @db.Text
+  imageUrl      String?       @db.Text
+  online Boolean
+}
+
+enum AccountRole {
+  admin
+  user
+}

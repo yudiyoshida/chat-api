@@ -1,0 +1,28 @@
+components:
+  schemas:
+    PermissionSchema:
+      type: object
+      readOnly : true
+      properties:
+        id:
+          type: number
+          example: 1
+        title:
+          type: string
+          example: 'Dashboard'
+
+    PermissionArraySchema:
+      type: object
+      readOnly : true
+      properties:
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionSchema'
+
+    PermissionIdArraySchema:
+      type: object
+      writeOnly : true
+      properties:
+        permissions:
+            $ref: '#/components/schemas/ArrayNumbers'

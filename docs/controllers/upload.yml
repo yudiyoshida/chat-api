@@ -1,0 +1,26 @@
+paths:
+  /upload-file:
+    post:
+      summary: 'Rota utilizada para fazer upload de um arquivo'
+      description: >
+        ## - Algumas rotas solicitam o envio de arquivos (e.g. fotos, pdf, planilhas, etc).
+
+        ## - Essa API utiliza apenas application/json como Content-Type no request body.
+
+        ## - Logo, basta enviar a url do arquivo no JSON, que pode ser obtida nessa rota.
+      tags:
+        - Gerencial - Upload de arquivo
+        - User - Upload de arquivo
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadRequestBodySchema'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadSchema'

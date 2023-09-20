@@ -1,0 +1,122 @@
+paths:
+  /auth/login/adm:
+    post:
+      summary: 'Rota utilizada para login'
+      tags:
+        - Gerencial - Autenticação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginInputAdminSchema'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginAdminSchema'
+
+  /auth/forgot-password/adm:
+    post:
+      summary: 'Rota 01/02 para o fluxo de Esqueci a senha'
+      tags:
+        - Gerencial - Autenticação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordAdminSchema'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessSchema'
+              example:
+                message: 'Código de recuperação de senha enviado no seu email!'
+
+  /auth/reset-password/adm:
+    post:
+      summary: 'Rota 02/02 para o fluxo de Esqueci a senha'
+      tags:
+        - Gerencial - Autenticação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordAdminSchema'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessSchema'
+              example:
+                message: 'Senha atualizada com sucesso!'
+
+  /auth/login:
+    post:
+      summary: 'Rota utilizada para login'
+      tags:
+        - User - Autenticação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginInputUserSchema'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginUserSchema'
+
+  /auth/forgot-password:
+    post:
+      summary: 'Rota 01/02 para o fluxo de Esqueci a senha'
+      tags:
+        - User - Autenticação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordUserSchema'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessSchema'
+              example:
+                message: 'Código de recuperação de senha enviado no seu email!'
+
+  /auth/reset-password:
+    post:
+      summary: 'Rota 02/02 para o fluxo de Esqueci a senha'
+      tags:
+        - User - Autenticação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordUserSchema'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessSchema'
+              example:
+                message: 'Senha atualizada com sucesso!'

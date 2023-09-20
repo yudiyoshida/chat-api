@@ -1,0 +1,16 @@
+tags:
+  # The tag order here controls the default sorting in Swagger UI
+  - name: Documentação da API
+  - name: --
+  - name: Gerencial - Autenticação
+  - name: Gerencial - Colaboradores
+  - name: Gerencial - Contato
+  - name: Gerencial - Faqs
+  - name: Gerencial - Textos
+  - name: Gerencial - Upload de arquivo
+  - name: ---
+  - name: User - Autenticação
+  - name: User - Contato
+  - name: User - Faqs
+  - name: User - Textos
+  - name: User - Upload de arquivo

@@ -1,0 +1,17 @@
+components:
+  schemas:
+    ContactSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          required: true
+          example: 'User teste'
+        email:
+          type: string
+          required: true
+          example: 'user@email.com'
+        message:
+          type: string
+          required: true
+          example: 'Mensagem de teste'

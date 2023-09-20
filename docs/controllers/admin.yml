@@ -1,0 +1,163 @@
+paths:
+  /admins/permissions:
+    get:
+      summary: 'Rota utilizada para listar as permissões de admin'
+      tags:
+        - Gerencial - Colaboradores
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PermissionSchema'
+
+  /admins:
+    get:
+      summary: 'Rota utilizada para listar todos os usuários admins'
+      description: >
+        ## Como funciona a paginação nessa rota?
+
+        ### - Caso não sejam informados valores para 'page' e 'limit', o retorno da api será um array com todos os registros.
+
+        ### - Caso sejam informados valores para 'page' e 'limit', o retorno será semelhante ao response abaixo.
+      tags:
+        - Gerencial - Colaboradores
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/AccountStatusParameter'
+        - $ref: '#/components/parameters/SearchParameter'
+        - $ref: '#/components/parameters/PageParameter'
+        - $ref: '#/components/parameters/LimitParameter'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/components/schemas/AdminSchema'
+                  - $ref: '#/components/schemas/PaginationSchema'
+
+    post:
+      summary: 'Rota utilizada para cadastrar um novo usuário admin'
+      description: >
+        ## - Ao criar a conta, uma senha aleatória para acessar o portal gerencial chegará por email.
+        
+        ## - "permissions" é um array de ids. Os ids das permissões podem ser obtidos na rota GET /admins/permissions.
+      tags:
+        - Gerencial - Colaboradores
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AdminSchema'
+                - $ref: '#/components/schemas/PermissionIdArraySchema'
+      responses:
+        '201':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/AdminSchema'
+                  - $ref: '#/components/schemas/PermissionArraySchema'
+
+  /admins/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdParameter'
+    get:
+      summary: 'Rota utilizada para exibir um usuário admin'
+      tags:
+        - Gerencial - Colaboradores
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/AdminSchema'
+                  - $ref: '#/components/schemas/PermissionArraySchema'
+
+    put:
+      summary: 'Rota utilizada para editar um usuário admin'
+      description: >
+        ## - "permissions" é um array de ids. Os ids das permissões podem ser obtidos na rota GET /admins/permissions.
+      tags:
+        - Gerencial - Colaboradores
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AdminSchema'
+                - $ref: '#/components/schemas/PermissionIdArraySchema'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/AdminSchema'
+                  - $ref: '#/components/schemas/PermissionArraySchema'
+
+    delete:
+      summary: 'Rota utilizada para deletar um usuário admin'
+      tags:
+        - Gerencial - Colaboradores
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/AdminSchema'
+
+  /admins/{id}/update-status:
+    parameters:
+      - $ref: '#/components/parameters/IdParameter'
+    patch:
+      summary: 'Rota utilizada para ativar/inativar um usuário admin'
+      tags:
+        - Gerencial - Colaboradores
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStatusSchema'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/AdminSchema'

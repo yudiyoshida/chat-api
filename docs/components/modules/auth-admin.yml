@@ -1,0 +1,62 @@
+components:
+  schemas:
+    AccountAdminSchema:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        role:
+          type: string
+          example: 'admin'
+        name:
+          type: string
+          example: 'Admin 01'
+
+    LoginAdminSchema:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/AccountAdminSchema'
+        token:
+          type: string
+
+    LoginInputAdminSchema:
+      type: object
+      properties:
+        credential:
+          type: string
+          required: true
+          example: 'admin@email.com'
+        password:
+          type: string
+          required: true
+          example: '123456789'
+
+    ForgotPasswordAdminSchema:
+      type: object
+      properties:
+        credential:
+          type: string
+          required: true
+          example: 'admin@email.com'
+
+    ResetPasswordAdminSchema:
+      type: object
+      properties:
+        credential:
+          type: string
+          required: true
+          example: 'admin@email.com'
+        code:
+          type: string
+          required: true
+          example: '1234'
+        password:
+          type: string
+          required: true
+          example: '12345789'
+        confirmPassword:
+          type: string
+          required: true
+          example: '12345789'

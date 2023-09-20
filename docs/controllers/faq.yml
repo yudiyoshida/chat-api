@@ -1,0 +1,106 @@
+paths:
+  /faqs:
+    get:
+      summary: 'Rota utilizada para listar as faqs'
+      description: >
+        ## Como funciona a paginação nessa rota?
+
+        ### - Caso não sejam informados valores para 'page' e 'limit', o retorno da api será um array com todos os registros.
+
+        ### - Caso sejam informados valores para 'page' e 'limit', o retorno será semelhante ao response abaixo.
+      tags:
+        - Gerencial - Faqs
+        - User - Faqs
+      parameters:
+        - $ref: '#/components/parameters/SearchParameter'
+        - $ref: '#/components/parameters/PageParameter'
+        - $ref: '#/components/parameters/LimitParameter'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/components/schemas/FaqSchema'
+                  - $ref: '#/components/schemas/PaginationSchema'
+
+    post:
+      summary: 'Rota utilizada para cadastrar uma faq'
+      tags:
+        - Gerencial - Faqs
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FaqSchema'
+      responses:
+        '201':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqSchema'
+
+  /faqs/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdParameter'
+    get:
+      summary: 'Rota utilizada para exibir uma faq'
+      tags:
+        - Gerencial - Faqs
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/FaqSchema'
+
+    put:
+      summary: 'Rota utilizada para editar uma faq'
+      description: >
+        ## - Não tem necessidade de enviar todos os campos novamente. Só precisa enviar aqueles que deseja editar.
+      tags:
+        - Gerencial - Faqs
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FaqSchema'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqSchema'
+
+    delete:
+      summary: 'Rota utilizada para deletar uma faq'
+      tags:
+        - Gerencial - Faqs
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqSchema'

@@ -1,0 +1,25 @@
+components:
+  schemas:
+    TextSchema:
+      type: object
+      properties:
+        id:
+          type: number
+          readOnly: true
+          example: 1
+        type:
+          type: string
+          readOnly: true
+          example: 'about'
+        content:
+          type: string
+          required: true
+          example: 'Texto aqui'
+        createdAt:
+          type: date
+          readOnly: true
+          example: '2023-01-01T00:19:12.088Z'
+        updatedAt:
+          type: date
+          readOnly: true
+          example: '2023-01-01T00:19:12.088Z'

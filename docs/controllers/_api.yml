@@ -1,0 +1,25 @@
+paths:
+  /errors:
+    get:
+      summary: 'Todos os possíveis erros que podem ocorrer na api'
+      description: >
+        ## - Abaixo, tem uma lista de todos os http status code que podem ser retornados pela api em caso de erro.
+
+        ## - Todos os erros possuem a mesma estrutura.
+      tags:
+        - Documentação da API
+      responses:
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '415':
+          $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'

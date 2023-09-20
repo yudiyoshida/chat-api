@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "npm run prisma:migration && npm start"
+    container_name: app_chat
+    depends_on:
+      app_mysql:
+        condition:
+          service_healthy
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:${PORT}"
+    restart: always
+
+  app_mysql:
+    image: mysql:8.0
+    container_name: mysql_chat
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_TCP_PORT: ${DB_PORT}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 15
+    ports:
+      - "${DB_PORT}:3306"
+    restart: always
+    volumes:
+      - app_volume:/var/lib/mysql
+
+volumes:
+  app_volume:
+    driver: local

@@ -1,0 +1,65 @@
+components:
+  # Reusable responses, such as 401 Unauthorized or 400 Bad Request
+  responses:
+    '400':
+      description: 'Bad Request'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorSchema'
+          example:
+            error: 'Parâmetro foo é obrigatório.'
+
+    '401':
+      description: 'Unauthorized'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorSchema'
+          example:
+            error: 'Você precisa estar autenticado para prosseguir.'
+
+    '403':
+      description: 'Forbidden'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorSchema'
+          example:
+            error: 'Sem permissão para acessar esse recurso.'
+
+    '404':
+      description: 'Not Found'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorSchema'
+          example:
+            error: 'Recurso não encontrado na base de dados.'
+
+    '409':
+      description: 'Conflict'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorSchema'
+          example:
+            error: 'Recurso já cadastrado na base de dados.'
+
+    '415':
+      description: 'Unsupported Media Type'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorSchema'
+          example:
+            error: 'Tipo de arquivo não suportado.'
+
+    '500':
+      description: 'Internal Server Error'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorSchema'
+          example:
+            error: 'Erro interno no servidor.'

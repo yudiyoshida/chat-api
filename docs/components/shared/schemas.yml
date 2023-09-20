@@ -1,0 +1,36 @@
+components:
+  # Reusable schemas (data models)
+  schemas:
+    ErrorSchema:
+      type: object
+      properties:
+        error:
+          type: string
+
+    SuccessSchema:
+      type: object
+      properties:
+        message:
+          type: string
+
+    PaginationSchema:
+      type: object
+      properties:
+        totalItems:
+          type: number
+          example: 100
+        totalPages:
+          type: number
+          example: 4
+        itemsPerPage:
+          type: number
+          example: 25
+        page:
+          type: number
+          example: 1
+
+    ArrayNumbers:
+      type: array
+      items:
+        type: number
+        example: 1
