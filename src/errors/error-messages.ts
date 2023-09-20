@@ -9,6 +9,10 @@ export default {
   EMAIL_NOT_VALIDATED: 'Para continuar, é necessário validar o email.',
   INVALID_CREDENTIALS: 'Credenciais incorretas.',
 
+  CHAT_NOT_FOUND: 'Conversa não encontrada na base de dados.',
+  CHAT_ALREADY_EXISTS: 'Conversa já registrada na base de dados.',
+  CANNOT_CHAT_WITH_YOURSELF: 'Erro. Não é possível iniciar uma conversa com você mesmo.',
+
   ADMIN_NOT_FOUND: 'Usuário não encontrado na base de dados.',
   USER_NOT_FOUND: 'Usuário não encontrado na base de dados.',
   FAQ_NOT_FOUND: 'FAQ não encontrada na base de dados.',
