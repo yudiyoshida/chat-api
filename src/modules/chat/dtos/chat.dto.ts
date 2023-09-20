@@ -11,5 +11,7 @@ export const ChatDto = Prisma.validator<Prisma.ChatSelect>()({
       online: true,
     },
   },
-  messages: true,
+  messages: {
+    orderBy: { sentAt: 'asc' },
+  },
 });

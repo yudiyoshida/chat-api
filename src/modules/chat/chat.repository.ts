@@ -5,7 +5,18 @@ import { ChatDto } from './dtos/chat.dto';
 class Repository {
   constructor(private readonly repository = DataSource.chat) {}
 
-  public findOne(userOne: number, userTwo: number) {
+  public findOneByIdAndUserId(id: number, userId: number) {
+    return this.repository.findFirst({
+      where: {
+        id,
+        users: {
+          some: { id: userId },
+        },
+      },
+    });
+  }
+
+  public findOneByUsersIds(userOne: number, userTwo: number) {
     return this.repository.findFirst({
       where: {
         users: {

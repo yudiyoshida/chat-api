@@ -5,12 +5,21 @@ import AppException from '@errors/app-exception';
 import ErrorMessages from '@errors/error-messages';
 
 class Service {
-  public async findOne(targetUserId: number, loggedUserId: number) {
+  public async findOneByIdAndUserId(id: number, loggedUserId: number) {
+    const chat = await Repository.findOneByIdAndUserId(id, loggedUserId);
+
+    if (!chat) {
+      throw new AppException(404, ErrorMessages.CHAT_NOT_FOUND);
+    }
+    return chat;
+  }
+
+  public async findOneByUsersIds(targetUserId: number, loggedUserId: number) {
     // check if target user (user that the logged user wants to start a conversation) exists.
     const targetUser = await UserService.findOne(targetUserId);
 
     // search for chat.
-    const chat = await Repository.findOne(targetUser.id, loggedUserId);
+    const chat = await Repository.findOneByUsersIds(targetUser.id, loggedUserId);
 
     if (!chat) {
       return this.createOne(targetUser.id, loggedUserId);
