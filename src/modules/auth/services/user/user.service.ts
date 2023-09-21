@@ -25,10 +25,7 @@ class Service {
       email: user.email,
     };
 
-    return {
-      token: JwtHelper.createToken(payload),
-      account: payload,
-    };
+    return { token: JwtHelper.createToken(payload) };
   }
 
   private comparePasswords(password: string, hash: string) {

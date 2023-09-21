@@ -28,14 +28,17 @@ class Service {
     return user;
   }
 
-  public async createOne(data: CreateUserDto) {
+  public async createOne(data: CreateUserDto, image?: Express.Multer.File) {
     // check for unique fields.
     await this.checkUniqueFields(data.email);
+
+    // retrieve image url.
+    const imageUrl = image ? image.location : null;
 
     // hash password.
     data.password = PasswordHelper.hash(data.password);
 
-    return await Repository.createOne(data);
+    return await Repository.createOne({ ...data, imageUrl });
   }
 
   public async updateOne(id: number, data: UpdateUserDto) {

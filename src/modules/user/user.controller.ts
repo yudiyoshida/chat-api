@@ -28,7 +28,7 @@ class Controller {
 
   @TryCatch()
   public async createOne(req: Request, res: Response) {
-    const result = await Service.createOne(req.body);
+    const result = await Service.createOne(req.body, req.file);
     res.status(201).json(result);
   }
 
