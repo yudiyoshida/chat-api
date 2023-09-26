@@ -34,6 +34,7 @@
     "nodemailer-express-handlebars": "^6.1.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
+    "socket.io": "^4.7.2",
     "zod": "^3.22.2"
   },
   "devDependencies": {

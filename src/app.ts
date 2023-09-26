@@ -4,24 +4,35 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import helmet from 'helmet';
 import multer from 'multer';
+import http from 'http';
+import https from 'https';
 
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerOptions from '@config/swagger';
+import sslOptions from '@config/ssl';
 
 import routes from './modules/index.routes';
 
 import AppException from '@errors/app-exception';
 import ErrorMessages from '@errors/error-messages';
+import SocketIO from '@libs/socketio';
 
 class App {
   public app: express.Application;
+  public server: http.Server | https.Server;
 
   constructor() {
     this.app = express();
+    this.server = this.createServer(process.env.NODE_ENV as string);
     this.registerMiddlewares();
+    this.registerSocketIO();
     this.registerRoutes();
     this.registerGlobalErrorHandlerRoute();
+  }
+
+  private createServer(nodeEnv: string) {
+    return (nodeEnv === 'production') ? https.createServer(sslOptions, this.app) : http.createServer(this.app);
   }
 
   private registerMiddlewares() {
@@ -32,6 +43,10 @@ class App {
     this.app.use(cookieParser());
     this.app.use(compression());
     this.app.use(helmet());
+  }
+
+  private registerSocketIO() {
+    return new SocketIO(this.server);
   }
 
   private registerRoutes() {
@@ -56,4 +71,4 @@ class App {
   }
 }
 
-export default new App().app;
+export default new App();
