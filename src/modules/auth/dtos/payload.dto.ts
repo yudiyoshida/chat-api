@@ -5,4 +5,6 @@ export interface IPayloadDto {
   role: AccountRole;
   name: string;
   email: string;
+  iat?: number;
+  exp?: number;
 }
