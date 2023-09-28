@@ -8,6 +8,7 @@ export interface ClientToServerEvents {
   'user:list': ()=> void;
   'user:online': ()=> void;
   'user:offline': ()=> void;
+  'message:list': (chatId: number, cb: (data: any)=> void)=> void;
 }
 
 export interface InterServerEvents {

@@ -13,6 +13,7 @@ class Repository {
           some: { id: userId },
         },
       },
+      select: ChatDto,
     });
   }
 

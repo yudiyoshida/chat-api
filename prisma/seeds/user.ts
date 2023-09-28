@@ -9,7 +9,6 @@ export async function seedUser(prisma: PrismaClient): Promise<void> {
         name: 'User 0' + i,
         email: `user${i}@getnada.com`,
         password: PasswordHelper.hash('123456789'),
-        online: true,
       },
     });
   }

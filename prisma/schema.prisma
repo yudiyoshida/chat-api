@@ -21,7 +21,6 @@ model User {
   email    String      @unique @db.VarChar(512)
   password String      @db.Text
   imageUrl String?     @db.Text
-  online   Boolean     @default(false)
   chats    Chat[]
   messages Message[]
 }
@@ -33,13 +32,13 @@ model Chat {
 }
 
 model Message {
-  id      Int      @id @default(autoincrement())
-  chat    Chat     @relation(fields: [chatId], references: [id])
-  chatId  Int
-  user    User     @relation(fields: [userId], references: [id])
-  userId  Int
-  content String   @db.Text
-  sentAt  DateTime @default(now())
+  id       Int      @id @default(autoincrement())
+  chat     Chat     @relation(fields: [chatId], references: [id])
+  chatId   Int
+  content  String   @db.Text
+  sentBy   User     @relation(fields: [sentById], references: [id])
+  sentById Int
+  sentAt   DateTime @default(now())
 }
 
 enum AccountRole {

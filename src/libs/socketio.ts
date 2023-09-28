@@ -2,6 +2,8 @@ import socketOptions from '@config/socketio';
 import { Server, Socket } from 'socket.io';
 import { ClientToServerEvents, ServerToClientEvents, ISocketDto, InterServerEvents } from '@interfaces/socketio.interface';
 
+import ChatService from 'modules/chat/chat.service';
+
 class SocketIO {
   private readonly io: Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, ISocketDto>;
   private _users = new Map<string, ISocketDto>();
@@ -15,11 +17,15 @@ class SocketIO {
     return [...this._users.values()];
   }
 
+  private getCredentials(socket: Socket) {
+    return socket.handshake.auth as ISocketDto;
+  }
+
   private registerEvents() {
     this.io.on('connection', (socket) => {
 
       // save new user in map and emit to everyone.
-      const user = socket.handshake.auth as ISocketDto;
+      const user = this.getCredentials(socket);
       this._users.set(socket.id, { ...user, online: true });
       this.io.emit('user:list', this.users);
 
@@ -38,6 +44,19 @@ class SocketIO {
       socket.on('user:offline', () => {
         this.changeStatus(false, socket);
         this.io.emit('user:list', this.users);
+      });
+
+      // onMessage, emit chat's messages to socket.
+      socket.on('message:list', async(userId: number, cb) => {
+        try {
+          const { id } = this.getCredentials(socket);
+          const chat = await ChatService.findOneByUsersIds(+userId, id);
+          cb(chat);
+
+        } catch (err) {
+          cb(err);
+
+        }
       });
 
       // onDisconnect, remove user from map and emit to everyone.

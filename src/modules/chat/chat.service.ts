@@ -3,6 +3,7 @@ import Repository from './chat.repository';
 import UserService from 'modules/user/user.service';
 import AppException from '@errors/app-exception';
 import ErrorMessages from '@errors/error-messages';
+import { ChatDto } from './dtos/chat.dto';
 
 class Service {
   public async findOneByIdAndUserId(id: number, loggedUserId: number) {
@@ -11,7 +12,7 @@ class Service {
     if (!chat) {
       throw new AppException(404, ErrorMessages.CHAT_NOT_FOUND);
     }
-    return chat;
+    return this.formatResponse(chat, loggedUserId);
   }
 
   public async findOneByUsersIds(targetUserId: number, loggedUserId: number) {
@@ -22,9 +23,22 @@ class Service {
     const chat = await Repository.findOneByUsersIds(targetUser.id, loggedUserId);
 
     if (!chat) {
-      return this.createOne(targetUser.id, loggedUserId);
+      const newChat = await this.createOne(targetUser.id, loggedUserId);
+      return this.formatResponse(newChat, loggedUserId);
     }
-    return chat;
+    return this.formatResponse(chat, loggedUserId);
+  }
+
+  public formatResponse(chat: ChatDto, loggedUserId: number) {
+    const { users, ...data } = chat;
+
+    const me = users.find(user => user.id === loggedUserId);
+    const others = users.filter(user => user.id !== loggedUserId);
+
+    return {
+      ...data,
+      users: { me, others },
+    };
   }
 
   private async createOne(userOne: number, userTwo: number) {
