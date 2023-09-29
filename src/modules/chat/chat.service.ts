@@ -6,7 +6,7 @@ import ErrorMessages from '@errors/error-messages';
 import { ChatDto } from './dtos/chat.dto';
 
 class Service {
-  public async findOneByIdAndUserId(id: number, loggedUserId: number) {
+  public async checkIfUserBelongsToChat(id: number, loggedUserId: number) {
     const chat = await Repository.findOneByIdAndUserId(id, loggedUserId);
 
     if (!chat) {
@@ -42,10 +42,10 @@ class Service {
   }
 
   private async createOne(userOne: number, userTwo: number) {
-    if (userOne === userTwo) {
-      throw new AppException(400, ErrorMessages.CANNOT_CHAT_WITH_YOURSELF);
-    }
-    return await Repository.createOne(userOne, userTwo);
+    // if (userOne === userTwo) {
+    //   throw new AppException(400, ErrorMessages.CANNOT_CHAT_WITH_YOURSELF);
+    // }
+    return Repository.createOne(userOne, userTwo);
   }
 }
 

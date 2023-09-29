@@ -2,8 +2,8 @@ import Repository from './message.repository';
 
 import ChatService from 'modules/chat/chat.service';
 
-import { CreateMessageDto } from './dtos/create-message.dto';
 import { Prisma } from '@prisma/client';
+import { CreateMessageDto } from './dtos/create-message.dto';
 
 class Service {
   public async getAll(userOne: number, userTwo: number) {
@@ -13,7 +13,7 @@ class Service {
   }
 
   public async createOne(data: CreateMessageDto, userId: number) {
-    const chat = await ChatService.findOneByIdAndUserId(data.chatId, userId);
+    const chat = await ChatService.checkIfUserBelongsToChat(data.chatId, userId);
 
     const body: Prisma.MessageCreateInput = {
       content: data.content,
@@ -25,7 +25,7 @@ class Service {
       },
     };
 
-    return await Repository.createOne(body);
+    return await Repository.createOne(body, chat.id);
   }
 }
 
