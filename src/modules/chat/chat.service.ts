@@ -1,5 +1,7 @@
 import Repository from './chat.repository';
 
+import UserService from 'modules/user/user.service';
+
 import AppException from '@errors/app-exception';
 import ErrorMessages from '@errors/error-messages';
 
@@ -20,11 +22,35 @@ class Service {
     return this.formatResponse(chat, userId);
   }
 
-  public async create(users: CreateChatDto, userId: number) {
-    users.ids.push({ id: userId });
+  public async create(data: CreateChatDto, userId: number) {
+    const { ids, ...body } = data;
 
-    const newChat = await Repository.createOne(users.ids);
+    // check is users' ids exists.
+    await this.checkIfUsersExists(ids);
+
+    if (ids.length === 1) {
+      // await this.checkIfPrivateChatAlreadyExists(userId, ids[0].id);
+    }
+    ids.push({ id: userId });
+
+    const newChat = await Repository.createOne(body, ids);
     return this.formatResponse(newChat, userId);
+  }
+
+  // private async checkIfPrivateChatAlreadyExists(userOne: number, userTwo: number) {
+  //   const chat = await Repository.findOneByUsersId(userOne, userTwo);
+  //   console.log(chat);
+  //   if (chat) {
+  //     throw new AppException(409, ErrorMessages.CHAT_ALREADY_EXISTS);
+  //   }
+  // }
+
+  private async checkIfUsersExists(ids: Array<{ id: number }>) {
+    const arrayOfIds = ids.map(item => item.id); // { id: number }[] => number[];
+
+    await Promise.all(
+      arrayOfIds.map(async(id) => await UserService.findOne(id)),
+    );
   }
 
   private formatResponse(chat: ChatDto, loggedUserId: number) {

@@ -27,6 +27,7 @@ model User {
 
 model Chat {
   id       Int       @id @default(autoincrement())
+  name     String?   @db.VarChar(512)
   users    User[]
   messages Message[]
 }

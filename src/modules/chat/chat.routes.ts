@@ -16,6 +16,7 @@ router
   Controller.findAll,
 )
 .post(
+  Validator.create,
   Controller.create,
 );
 

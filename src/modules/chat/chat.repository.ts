@@ -29,9 +29,13 @@ class Repository {
     });
   }
 
-  public createOne(users: Prisma.UserWhereUniqueInput[]) {
+  public createOne(
+    data: Prisma.ChatCreateWithoutUsersInput,
+    users: Prisma.UserWhereUniqueInput[],
+  ) {
     return this.repository.create({
       data: {
+        name: data.name,
         users: {
           connect: users,
         },
