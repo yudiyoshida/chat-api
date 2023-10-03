@@ -1,15 +1,8 @@
 import { AccountRole } from '@prisma/client';
 
-export interface ServerToClientEvents {
-  'user:list': (users: ISocketDto[])=> void;
-}
+export interface ServerToClientEvents {}
 
-export interface ClientToServerEvents {
-  'user:list': ()=> void;
-  'user:online': ()=> void;
-  'user:offline': ()=> void;
-  'chat:detail': (targetId: number, cb: (chat: any)=> void)=> void;
-}
+export interface ClientToServerEvents {}
 
 export interface InterServerEvents {
   ping: ()=> void;

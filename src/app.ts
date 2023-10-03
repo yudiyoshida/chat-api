@@ -16,7 +16,7 @@ import routes from './modules/index.routes';
 
 import AppException from '@errors/app-exception';
 import ErrorMessages from '@errors/error-messages';
-import SocketIO from '@libs/socket/socketio';
+import SocketIO from '@libs/socketio';
 
 class App {
   public app: express.Application;

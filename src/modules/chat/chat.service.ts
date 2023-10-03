@@ -1,35 +1,33 @@
 import Repository from './chat.repository';
 
-import UserService from 'modules/user/user.service';
 import AppException from '@errors/app-exception';
 import ErrorMessages from '@errors/error-messages';
+
 import { ChatDto } from './dtos/chat.dto';
+import { CreateChatDto } from './dtos/create-chat.dto';
 
 class Service {
-  public async checkIfUserBelongsToChat(id: number, loggedUserId: number) {
-    const chat = await Repository.findOneByIdAndUserId(id, loggedUserId);
+  public async findAll(userId: number) {
+    return await Repository.findAll(userId);
+  }
+
+  public async findById(id: number, userId: number) {
+    const chat = await Repository.findOneByIdAndUserId(id, userId);
 
     if (!chat) {
       throw new AppException(404, ErrorMessages.CHAT_NOT_FOUND);
     }
-    return this.formatResponse(chat, loggedUserId);
+    return this.formatResponse(chat, userId);
   }
 
-  public async findOneByUsersIds(targetUserId: number, loggedUserId: number) {
-    // check if target user (user that the logged user wants to start a conversation) exists.
-    const targetUser = await UserService.findOne(targetUserId);
+  public async create(users: CreateChatDto, userId: number) {
+    users.ids.push({ id: userId });
 
-    // search for chat.
-    const chat = await Repository.findOneByUsersIds(targetUser.id, loggedUserId);
-
-    if (!chat) {
-      const newChat = await this.createOne(targetUser.id, loggedUserId);
-      return this.formatResponse(newChat, loggedUserId);
-    }
-    return this.formatResponse(chat, loggedUserId);
+    const newChat = await Repository.createOne(users.ids);
+    return this.formatResponse(newChat, userId);
   }
 
-  public formatResponse(chat: ChatDto, loggedUserId: number) {
+  private formatResponse(chat: ChatDto, loggedUserId: number) {
     const { users, ...data } = chat;
 
     const me = users.find(user => user.id === loggedUserId);
@@ -39,13 +37,6 @@ class Service {
       ...data,
       users: { me, others },
     };
-  }
-
-  private async createOne(userOne: number, userTwo: number) {
-    // if (userOne === userTwo) {
-    //   throw new AppException(400, ErrorMessages.CANNOT_CHAT_WITH_YOURSELF);
-    // }
-    return Repository.createOne(userOne, userTwo);
   }
 }
 
