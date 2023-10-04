@@ -9,14 +9,14 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 
 class Service {
-  public async findAll(limit: number, page: number, search?: string) {
-    const users = await Repository.findAll(limit, page, search);
+  public async findAll(limit: number, page: number, userId: number, search?: string) {
+    const users = await Repository.findAll(limit, page, userId, search);
 
     return PaginationHelper.paginate(users, limit, page);
   }
 
-  public async findAllNoPagination(search?: string) {
-    return await Repository.findAllNoPagination(search);
+  public async findAllNoPagination(userId: number, search?: string) {
+    return await Repository.findAllNoPagination(userId, search);
   }
 
   public async findOne(id: number) {

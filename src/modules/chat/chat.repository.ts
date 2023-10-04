@@ -14,6 +14,7 @@ class Repository {
         },
       },
       select: ChatDto,
+      orderBy: { updatedAt: 'desc' },
     });
   }
 

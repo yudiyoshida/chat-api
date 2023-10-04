@@ -6,7 +6,7 @@ import { UserDto } from './dtos/user.dto';
 class Repository {
   constructor(private readonly repository = DataSource.user) {}
 
-  public findAll(limit: number, page: number, search?: string) {
+  public findAll(limit: number, page: number, userId: number, search?: string) {
     const where: Prisma.UserWhereInput = {
       AND: [
         { OR:
@@ -15,6 +15,7 @@ class Repository {
           ],
         },
       ],
+      NOT: [{ id: userId }],
     };
 
     return DataSource.$transaction([
@@ -23,12 +24,13 @@ class Repository {
         take: limit,
         skip: ((page - 1) * limit),
         select: UserDto,
+        orderBy: { name: 'asc' },
       }),
       this.repository.count({ where }),
     ]);
   }
 
-  public findAllNoPagination(search?: string) {
+  public findAllNoPagination(userId: number, search?: string) {
     const where: Prisma.UserWhereInput = {
       AND: [
         { OR:
@@ -37,11 +39,13 @@ class Repository {
           ],
         },
       ],
+      NOT: [{ id: userId }],
     };
 
     return this.repository.findMany({
       where,
       select: UserDto,
+      orderBy: { name: 'asc' },
     });
   }
 

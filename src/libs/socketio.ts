@@ -34,7 +34,9 @@ class SocketIO {
   }
 
   private registerEvents() {
-    console.log('ev');
+    this.io.on('connection', (socket: SocketTS) => {
+      console.log('new connection: ', socket.id);
+    });
   }
 }
 

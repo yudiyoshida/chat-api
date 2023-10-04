@@ -6,14 +6,14 @@ import { Prisma } from '@prisma/client';
 import { CreateMessageDto } from './dtos/create-message.dto';
 
 class Service {
-  public async getAll(userOne: number, userTwo: number) {
-    const chat = await ChatService.findOneByUsersIds(userOne, userTwo);
+  public async getAll(chatId: number, userId: number) {
+    const chat = await ChatService.findById(chatId, userId);
 
     return await Repository.findAll(chat.id);
   }
 
   public async createOne(data: CreateMessageDto, userId: number) {
-    const chat = await ChatService.checkIfUserBelongsToChat(data.chatId, userId);
+    const chat = await ChatService.findById(data.chatId, userId);
 
     const body: Prisma.MessageCreateInput = {
       content: data.content,

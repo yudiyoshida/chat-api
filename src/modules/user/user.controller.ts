@@ -9,8 +9,8 @@ class Controller {
     const { limit, page, search } = req.query as RequestQueryDto;
 
     const result = (page && limit)
-      ? await Service.findAll(limit, page, search)
-      : await Service.findAllNoPagination(search);
+      ? await Service.findAll(limit, page, req.auth.id, search)
+      : await Service.findAllNoPagination(req.auth.id, search);
     res.status(200).json(result);
   }
 
