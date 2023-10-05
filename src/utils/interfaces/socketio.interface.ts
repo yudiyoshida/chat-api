@@ -1,4 +1,4 @@
-import { AccountRole } from '@prisma/client';
+import { IPayloadDto } from 'modules/auth/dtos/payload.dto';
 import { CreateMessageDto } from 'modules/message/dtos/create-message.dto';
 import { MessageDto } from 'modules/message/dtos/message.dto';
 
@@ -16,12 +16,6 @@ export interface InterServerEvents {
   ping: ()=> void;
 }
 
-export interface ISocketDto {
-  id: number;
-  role: AccountRole;
-  name: string;
-  email: string;
-  iat?: number;
-  exp?: number;
+export interface ISocketDto extends IPayloadDto {
   online: boolean;
 }

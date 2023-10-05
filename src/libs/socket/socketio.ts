@@ -26,6 +26,7 @@ class SocketIO {
   private registerMiddlewares() {
     this.io.use((socket, next) => {
       socket.data = socket.handshake.auth as ISocketDto;
+      console.log(socket.data);
       next();
     });
 
@@ -76,6 +77,11 @@ class SocketIO {
           socket.emit('error', error.message);
 
         }
+      });
+
+      socket.on('disconnect', () => {
+        console.log('chamou disconnect');
+        console.log('saiu: ', socket.id);
       });
 
     });
