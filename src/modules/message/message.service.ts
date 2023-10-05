@@ -25,7 +25,7 @@ class Service {
       },
     };
 
-    return await Repository.createOne(body, chat.id);
+    return await Repository.createOne(body);
   }
 }
 

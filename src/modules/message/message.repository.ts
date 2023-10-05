@@ -14,18 +14,10 @@ class Repository {
     });
   }
 
-  public createOne(data: Prisma.MessageCreateInput, chatId: number) {
-    return DataSource.$transaction(async(tx) => {
-      await tx.message.create({
-        data,
-        select: MessageDto,
-      });
-
-      return await tx.message.findMany({
-        where: { chatId },
-        orderBy: { sentAt: 'desc' },
-        select: MessageDto,
-      });
+  public createOne(data: Prisma.MessageCreateInput) {
+    return this.repository.create({
+      data,
+      select: MessageDto,
     });
   }
 }
