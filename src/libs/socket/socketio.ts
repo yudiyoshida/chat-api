@@ -33,6 +33,7 @@ class SocketIO {
     this.io.use((socket, next) => {
       socket.onAny((event, args) => {
         console.log(event, args);
+        console.log(socket.rooms);
       });
       next();
     });
@@ -66,12 +67,14 @@ class SocketIO {
         }
       });
 
-      socket.on('message:create', async(data, cb) => {
+      socket.on('message:create', async(data) => {
         try {
           data = this.schemaValidator(CreateMessage, data);
 
-          await messageService.createOne(data, +socket.data.id);
-          cb();
+          socket.join(data.chatId.toString());
+
+          const messages = await messageService.createOne(data, +socket.data.id);
+          this.io.to(data.chatId.toString()).emit('message:list', messages);
 
         } catch (error: any) {
           socket.emit('error', error.message);

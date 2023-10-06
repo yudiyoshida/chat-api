@@ -13,10 +13,11 @@ class Service {
   }
 
   public async createOne(data: CreateMessageDto, userId: number) {
-    const chat = await ChatService.findById(data.chatId, userId);
+    const { chatId, content } = data;
+    const chat = await ChatService.findById(chatId, userId);
 
     const body: Prisma.MessageCreateInput = {
-      content: data.content,
+      content: content,
       chat: {
         connect: { id: chat.id },
       },
@@ -25,7 +26,8 @@ class Service {
       },
     };
 
-    return await Repository.createOne(body);
+    await Repository.createOne(body);
+    return await Repository.findAll(chatId);
   }
 }
 

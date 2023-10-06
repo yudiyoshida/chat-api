@@ -9,7 +9,7 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   'message:list': (chatId: number)=> void;
-  'message:create': (data: CreateMessageDto, cb: ()=> void)=> void;
+  'message:create': (data: CreateMessageDto)=> void;
 }
 
 export interface InterServerEvents {
