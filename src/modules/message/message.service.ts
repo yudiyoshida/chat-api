@@ -26,8 +26,8 @@ class Service {
       },
     };
 
-    await Repository.createOne(body);
-    return await Repository.findAll(chatId);
+    return await Repository.createOne(body);
+    // return await Repository.findAll(chatId);
   }
 }
 
