@@ -16,9 +16,14 @@ import messageService from 'modules/message/message.service';
 type ServerTS = Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, ISocketDto>;
 type SocketTS = Socket<ClientToServerEvents, ServerToClientEvents, InterServerEvents, ISocketDto>;
 
+interface UserSocket {
+  user: ISocketDto;
+  socketId: string;
+}
+
 class SocketIO {
   private readonly io: ServerTS;
-  private sockets = new Map<string, string>();
+  private sockets = new Map<string, UserSocket>();
 
   constructor(server: any) {
     this.io = new Server(server, socketOptions);
@@ -52,9 +57,13 @@ class SocketIO {
     return schema.parse(value);
   }
 
-  private newConnection(socket: SocketTS) {
-    console.log('new connection: ', socket.id);
-    this.sockets.set(socket.data.id.toString(), socket.id);
+  private newConnection({ id, data }: SocketTS) {
+    console.log('new connection: ', id);
+
+    this.sockets.set(data.id.toString(), {
+      user: { ...data, online: true },
+      socketId: id,
+    });
     console.log(this.sockets);
   }
 
@@ -94,10 +103,10 @@ class SocketIO {
           newChat.users.others.map(async(user) => {
             const sckt = this.sockets.get(user.id.toString());
             if (sckt) {
-              this.io.to(sckt).socketsJoin(newChat.id.toString());
+              this.io.to(sckt.socketId).socketsJoin(newChat.id.toString());
 
               const chats = await chatService.findAll(user.id);
-              this.io.to(sckt).emit('chat:list', chats);
+              this.io.to(sckt.socketId).emit('chat:list', chats);
 
             } else {
               console.log('não há socket no map');
